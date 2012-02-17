@@ -10,6 +10,16 @@ namespace :db do
     )
   end
 
+  desc "rollback your migration"
+  task :rollback do
+    steps = ENV['STEPS']
+    abort("no STEPS specified. use `rake db:rollback STEPS=1`") if !steps
+    ActiveRecord::Migrator.rollback(
+      'db/migrate',
+      steps.to_i
+    )
+  end
+
   desc "create an ActiveRecord migration in ./db/migrate"
   task :create_migration do
     name = ENV['NAME']
